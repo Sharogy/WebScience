@@ -114,7 +114,7 @@ public class Datacompiler {
 		date = date.replace("Aug", "08");
 		date = date.replace("Sep", "09");
 		date = date.replace("Oct", "10");
-		date = date.replace("Nov", "12");
+		date = date.replace("Nov", "11");
 		date = date.replace("Dec", "12");
 		date = date.replace(" ", "/");
 		date = date.replace(",", "");
@@ -129,8 +129,7 @@ public class Datacompiler {
 		//URL url = getClass().getResource("BrowsingShooter.xlsx");
 		Datacompiler compiler = new Datacompiler();
 		
-		List<Game> games;
-		games = compiler.compile(100000,"01/07/2017");
+		List<Game> games = compiler.compile(100000,"01/07/2017");
 		for (int i = 0; i<games.size(); i++)
 		{
 			System.out.println(games.get(i).getName() + "    " + "Release Date:" + " " + (games.get(i).getReleasedate().getYear()+1900) +  "     " + "Sells:" + " " + games.get(i).getSells());

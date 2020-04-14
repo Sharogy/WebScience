@@ -12,9 +12,8 @@ public class Game {
 	
 	private StringProperty name;
 	private IntegerProperty sells;
-	private StringProperty releasedate;
 	private StringProperty webshop;
-	private Date date;
+	private Date releasedate;
 
 	public Game()
 	{
@@ -25,7 +24,7 @@ public class Game {
 	{
 		this.name = new SimpleStringProperty(name);
 		this.sells = new SimpleIntegerProperty(sells);
-		this.date = date;
+		this.releasedate = date;
 		this.webshop = new SimpleStringProperty(webshop);
 	}
 		
@@ -53,13 +52,13 @@ public class Game {
 
 	
 	public Date getReleasedate() {
-		return date;
+		return releasedate;
 	}
 	
 	@SuppressWarnings("deprecation")
 	public void setReleasedate(int date)
 	{
-		this.date.setDate(date);
+		this.releasedate.setDate(date);
 	}
 	
 	public String getWebshop() {
