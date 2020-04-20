@@ -1,6 +1,6 @@
 package Datamining;
 
 public class Datasetting {
-	public static String datapath = "../WebScience/Data/SteamStrategyComplete.xlsx";
+	public static String datapath = "../WebScience/Data/SteamGamesData.xlsx";
 
 }

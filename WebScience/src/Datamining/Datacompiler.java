@@ -3,9 +3,11 @@ package Datamining;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -18,6 +20,8 @@ public class Datacompiler {
 	Date date;
 	String tempdate;
 	Date dfilter;
+	Set<String> uniqueset = new HashSet<String>();
+	int size = 0;
 	
 // THIS METHOD COMPILES THE String[][] Data INTO A LIST OF GAMES, USE THIS FOR YOUR MODULES.
 // TWO ADDITION PARAMETERS ARE USED AS FILTERS, SUCH AS MINIMUM NUMBER OF SELLS AND RELEASED AFTER CERTAIN DATE
@@ -59,8 +63,11 @@ public class Datacompiler {
 							date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate2);
 							if (date.after(dfilter))
 							{
-								Game game = new Game(data[i][0],reviews*15,date,data[i][4]);
-								gamelist.add(game);
+								Game game = new Game(data[i][0],reviews*15,date,data[i][5],data[i][4]);
+								if (isunique(game.getName()))
+								{
+									gamelist.add(game);
+								}
 							}
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
@@ -90,8 +97,11 @@ public class Datacompiler {
 								date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
 								if (date.after(dfilter))
 								{
-									Game game = new Game(data[i][0],reviews*15,date,data[i][4]);
-									gamelist.add(game);
+									Game game = new Game(data[i][0],reviews*15,date,data[i][5],data[i][4]);
+									if (isunique(game.getName()))
+									{
+										gamelist.add(game);
+									}
 								}
 								
 							} catch (ParseException e) {
@@ -129,6 +139,18 @@ public class Datacompiler {
 		
 	}
 	
+	public boolean isunique(String name)
+	{
+		//System.out.println("yues");
+		uniqueset.add(name);
+		if (uniqueset.size()>size)
+		{
+			size = uniqueset.size();
+			return true;
+		}
+		else return false;
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static void main(String[] argz) throws InvalidFormatException, IOException
 	{
@@ -138,7 +160,7 @@ public class Datacompiler {
 		List<Game> games = compiler.compile(100000,"01/07/2017");
 		for (int i = 0; i<games.size(); i++)
 		{
-			System.out.println(games.get(i).getName() + "    " + "Release Date:" + " " + (games.get(i).getReleasedate().getYear()+1900) +  "     " + "Sells:" + " " + games.get(i).getSells());
+			System.out.println(games.get(i).getName() + "    " + games.get(i).getGenre() + "       " +"Release Date:" + " " + (games.get(i).getReleasedate().getYear()+1900) +  "     " + "Sells:" + " " + games.get(i).getSells());
 				//System.out.println(games.get(i).getName());
 		}
 		System.out.println(games.size());		

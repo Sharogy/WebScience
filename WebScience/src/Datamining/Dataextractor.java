@@ -38,7 +38,7 @@ public class Dataextractor{
         // 1. You can obtain a rowIterator and columnIterator and iterate over them
         Iterator<Row> rowIterator = sheet.rowIterator();
         
-        String[][] dataarray = new String[sheet.getPhysicalNumberOfRows()][5];       
+        String[][] dataarray = new String[sheet.getPhysicalNumberOfRows()][6];       
         int rownum = 0;
         int colnum = 0;
         while (rowIterator.hasNext()) {
