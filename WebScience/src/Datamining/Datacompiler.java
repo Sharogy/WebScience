@@ -15,6 +15,8 @@ public class Datacompiler {
 	
 	private List<Game> gamelist = new ArrayList();
 	private String[][] data;
+	Date date;
+	String tempdate;
 	Date dfilter;
 	
 // THIS METHOD COMPILES THE String[][] Data INTO A LIST OF GAMES, USE THIS FOR YOUR MODULES.
@@ -51,10 +53,10 @@ public class Datacompiler {
 					int reviews = Integer.valueOf(tempreviews);
 					if (reviews*15 > sellsfilter)
 					{
-						String tempdate = data[i][3];
-						tempdate = datereplacer(tempdate);
+						tempdate = data[i][3];
+						String tempdate2 = datereplacer(tempdate);
 						try {
-							Date date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+							date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate2);
 							if (date.after(dfilter))
 							{
 								Game game = new Game(data[i][0],reviews*15,date,data[i][4]);
@@ -62,6 +64,9 @@ public class Datacompiler {
 							}
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
+							System.out.println(date);
+							System.out.println(i);
+							System.out.println(tempdate);
 							e.printStackTrace();
 						}
 					}
@@ -79,10 +84,10 @@ public class Datacompiler {
 						int reviews = Integer.valueOf(tempreviews);
 						if (reviews*15 > sellsfilter)
 						{
-							String tempdate = data[i][3];
+							tempdate = data[i][3];
 							tempdate = datereplacer(tempdate);
 							try {
-								Date date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+								date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
 								if (date.after(dfilter))
 								{
 									Game game = new Game(data[i][0],reviews*15,date,data[i][4]);
@@ -91,6 +96,7 @@ public class Datacompiler {
 								
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block
+								System.out.println("2");
 								e.printStackTrace();
 							}
 						}
