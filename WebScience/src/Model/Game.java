@@ -11,20 +11,22 @@ import javafx.beans.property.StringProperty;
 public class Game {
 	
 	private StringProperty name;
-	private IntegerProperty sells;
+	private IntegerProperty steamsells;
+	private IntegerProperty epicsells;
 	private StringProperty webshop;
 	private Date releasedate;
 	private StringProperty genre;
 
 	public Game()
 	{
-		this(null,0,null,null,null);
+		this(null,0,0,null,null,null);
 	}
 	
-	public Game(String name, int sells, Date date, String genre, String webshop)
+	public Game(String name, int steamsells, int epicsells, Date date, String genre, String webshop)
 	{
 		this.name = new SimpleStringProperty(name);
-		this.sells = new SimpleIntegerProperty(sells);
+		this.steamsells = new SimpleIntegerProperty(steamsells);
+		this.epicsells = new SimpleIntegerProperty(epicsells);
 		this.releasedate = date;
 		this.genre = new SimpleStringProperty(genre);
 		this.webshop = new SimpleStringProperty(webshop);
@@ -41,15 +43,26 @@ public class Game {
 		return name;
 	}
 
-	public int getSells() {
-		return sells.get();
+	public int getSteamsells() {
+		return steamsells.get();
 	}
-	public void setSells(int number) {
-		this.sells.set(number);
+	public void setSteamsells(int number) {
+		this.steamsells.set(number);
 	}	
-	public IntegerProperty SellProperty()
+	public IntegerProperty SteamsellProperty()
 	{
-		return sells;
+		return steamsells;
+	}
+	
+	public int getEpicsells() {
+		return epicsells.get();
+	}
+	public void setEpicsells(int number) {
+		this.epicsells.set(number);
+	}	
+	public IntegerProperty EpicsellProperty()
+	{
+		return epicsells;
 	}
 
 	
