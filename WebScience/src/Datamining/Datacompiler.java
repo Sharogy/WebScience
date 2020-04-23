@@ -63,7 +63,7 @@ public class Datacompiler {
 							date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate2);
 							if (date.after(dfilter))
 							{
-								Game game = new Game(data[i][0],reviews*15,0,date,data[i][5],data[i][4]);
+								Game game = new Game(data[i][0],reviews*15,0,date,data[i][5],data[i][4],gamelist.size()+1);
 								if (isunique(game.getName()))
 								{
 									gamelist.add(game);
@@ -97,7 +97,7 @@ public class Datacompiler {
 								date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
 								if (date.after(dfilter))
 								{
-									Game game = new Game(data[i][0],reviews*15,0,date,data[i][5],data[i][4]);
+									Game game = new Game(data[i][0],reviews*15,0,date,data[i][5],data[i][4],gamelist.size()+1);
 									if (isunique(game.getName()))
 									{
 										gamelist.add(game);

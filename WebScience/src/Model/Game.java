@@ -16,13 +16,14 @@ public class Game {
 	private StringProperty webshop;
 	private Date releasedate;
 	private StringProperty genre;
+	private IntegerProperty gameid;
 
 	public Game()
 	{
-		this(null,0,0,null,null,null);
+		this(null,0,0,null,null,null,0);
 	}
 	
-	public Game(String name, int steamsells, int epicsells, Date date, String genre, String webshop)
+	public Game(String name, int steamsells, int epicsells, Date date, String genre, String webshop, int gameid)
 	{
 		this.name = new SimpleStringProperty(name);
 		this.steamsells = new SimpleIntegerProperty(steamsells);
@@ -30,6 +31,7 @@ public class Game {
 		this.releasedate = date;
 		this.genre = new SimpleStringProperty(genre);
 		this.webshop = new SimpleStringProperty(webshop);
+		this.gameid = new SimpleIntegerProperty(gameid);
 	}
 		
 	public String getName() {
@@ -96,6 +98,17 @@ public class Game {
 	public StringProperty webshopProperty()
 	{
 		return webshop;
+	}
+	
+	public int getGameid() {
+		return gameid.get();
+	}
+	public void setGameid(int gameid) {
+		this.gameid.set(gameid);
+	}
+	public IntegerProperty gameidProperty()
+	{
+		return gameid;
 	}
 
 }
