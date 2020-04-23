@@ -488,6 +488,35 @@ public static void writeEdge2() throws IOException{
         // Create Other rows and cells with employees data
         int rowNum =1;
         
+      for (Game game: games)
+      {
+      	Row row = sheet.createRow(rowNum++);
+      	
+      	if (game.getWebshop().equalsIgnoreCase("Steam"))
+      	{
+      		System.out.println("yes");
+      		row.createCell(0).setCellValue(game.getGameid());
+      		row.createCell(1).setCellValue(games.size()+1);
+          	row.createCell(2).setCellValue(game.getSteamsells());
+      	}
+      	
+      	if (game.getWebshop() == "Epic")
+      	{
+      		row.createCell(0).setCellValue(game.getGameid());
+      		row.createCell(1).setCellValue(games.size()+2);
+          	row.createCell(2).setCellValue(game.getEpicsells());
+      	}
+      	
+      	if (game.getWebshop() == "Both")
+      	{
+      		row.createCell(0).setCellValue(game.getGameid());
+      		row.createCell(1).setCellValue(games.size()+1);
+          	row.createCell(2).setCellValue(game.getSteamsells());
+          	row.createCell(0).setCellValue(game.getName());
+      		row.createCell(1).setCellValue(games.size()+2);
+          	row.createCell(2).setCellValue(game.getEpicsells());
+      	}        	
+      }
         
 	      for (int i = 0; i<games.size(); i++) 
 	      {
