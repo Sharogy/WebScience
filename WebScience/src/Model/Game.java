@@ -93,7 +93,7 @@ public class Game {
 		return webshop.get();
 	}
 	public void setWebshop(String webstore) {
-		this.genre.set(webstore);
+		this.webshop.set(webstore);
 	}
 	public StringProperty webshopProperty()
 	{

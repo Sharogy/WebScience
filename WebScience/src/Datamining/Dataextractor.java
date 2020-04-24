@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class Dataextractor{
 	//private static String datapath = Datasetting.datapath;
 	private static String datapath = Datasetting.datapath;
+	private static String datapath2 = Datasetting.datapath2;
 	
 	
 	public static void setpath(String path)
@@ -26,7 +27,7 @@ public class Dataextractor{
 		datapath = path;
 	}
 	
-	public static String[][] getData() throws IOException, InvalidFormatException {
+	public static String[][] getDatasteam() throws IOException, InvalidFormatException {
 		
     	Workbook workbook = WorkbookFactory.create(new File(datapath));
     	
@@ -50,6 +51,43 @@ public class Dataextractor{
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 String cellValue = dataFormatter.formatCellValue(cell);
+                cellValue = cellValue.replaceAll("\\p{C}", "?");
+                //System.out.print(cellValue + "\t");
+                colnum = colnum+1;
+                dataarray[rownum][colnum] = cellValue;                         
+            }
+            //System.out.println();
+            rownum = rownum+1;
+        }
+        workbook.close();
+        return dataarray;  	
+    }
+	
+	public static String[][] getDataepic() throws IOException, InvalidFormatException {
+		
+    	Workbook workbook = WorkbookFactory.create(new File(datapath2));
+    	
+    	Sheet sheet = workbook.getSheetAt(0);
+    	
+        // Create a DataFormatter to format and get each cell's value as String
+        DataFormatter dataFormatter = new DataFormatter();
+
+        // 1. You can obtain a rowIterator and columnIterator and iterate over them
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        
+        String[][] dataarray = new String[sheet.getPhysicalNumberOfRows()][6];       
+        int rownum = 0;
+        int colnum = 0;
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+
+            // Now let's iterate over the columns of the current row
+            Iterator<Cell> cellIterator = row.cellIterator();
+            colnum = -1;
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                String cellValue = dataFormatter.formatCellValue(cell);
+                cellValue = cellValue.replaceAll("\\p{C}", "?");
                 //System.out.print(cellValue + "\t");
                 colnum = colnum+1;
                 dataarray[rownum][colnum] = cellValue;                         
@@ -64,8 +102,8 @@ public class Dataextractor{
 	public static void main(String[] argz) throws InvalidFormatException, IOException
 	{
 		//URL url = getClass().getResource("BrowsingShooter.xlsx");
-		String[][] data = Dataextractor.getData();
-		System.out.println(data[4][2].isEmpty());
+		String[][] data = Dataextractor.getDatasteam();
+		System.out.println(data[10][0]);
 	}
 	
 }

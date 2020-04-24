@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Datawriter {
 
@@ -36,7 +38,7 @@ public class Datawriter {
     	Datacompiler compiler = new Datacompiler();
     	if (games.size() == 0)
     	{
-    		games = compiler.compile(100000,"01/07/2017");
+    		games = compiler.compile(250000,"01/01/2017");
     	}
     }
     
@@ -245,58 +247,58 @@ public static void writeNode2() throws IOException{
         	if (game.getGenre().equalsIgnoreCase("Shooter"))
         	{
         		row.createCell(0).setCellValue(game.getGameid());
-        		row.createCell(1).setCellValue(154);
+        		row.createCell(1).setCellValue(games.size()+3);
         		row.createCell(2).setCellValue(game.getSteamsells());
         		shooterweight = shooterweight + game.getSteamsells();
         	}
         	if (game.getGenre().equalsIgnoreCase("Racing"))
         	{
         		row.createCell(0).setCellValue(game.getGameid());
-        		row.createCell(1).setCellValue(155);
+        		row.createCell(1).setCellValue(games.size()+4);
         		row.createCell(2).setCellValue(game.getSteamsells());
         		racingweight = racingweight + game.getSteamsells();
         	}
         	if (game.getGenre().equalsIgnoreCase("Strategy"))
         	{
         		row.createCell(0).setCellValue(game.getGameid());
-        		row.createCell(1).setCellValue(156);
+        		row.createCell(1).setCellValue(games.size()+5);
         		row.createCell(2).setCellValue(game.getSteamsells());
         		strategyweight = strategyweight + game.getSteamsells();
         	}
         	if (game.getGenre().equalsIgnoreCase("Puzzle"))
         	{
         		row.createCell(0).setCellValue(game.getGameid());
-        		row.createCell(1).setCellValue(157);
+        		row.createCell(1).setCellValue(games.size()+6);
         		row.createCell(2).setCellValue(game.getSteamsells());
         		puzzleweight = puzzleweight + game.getSteamsells();
         	}
         	if (game.getGenre().equalsIgnoreCase("RPG"))
         	{
         		row.createCell(0).setCellValue(game.getGameid());
-        		row.createCell(1).setCellValue(158);
+        		row.createCell(1).setCellValue(games.size()+7);
         		row.createCell(2).setCellValue(game.getSteamsells());
         		rpgweight = rpgweight + game.getSteamsells();
         	}     			
         }
         Row row = sheet.createRow(rowNum++);
-        row.createCell(0).setCellValue(154);
-        row.createCell(1).setCellValue(152);
+        row.createCell(0).setCellValue(games.size()+3);
+        row.createCell(1).setCellValue(games.size()+1);
         row.createCell(2).setCellValue(shooterweight);
         Row row2 = sheet.createRow(rowNum++);
-        row2.createCell(0).setCellValue(155);
-        row2.createCell(1).setCellValue(152);
+        row2.createCell(0).setCellValue(games.size()+4);
+        row2.createCell(1).setCellValue(games.size()+1);
         row2.createCell(2).setCellValue(racingweight);     
         Row row3 = sheet.createRow(rowNum++);
-        row3.createCell(0).setCellValue(156);
-        row3.createCell(1).setCellValue(152);
+        row3.createCell(0).setCellValue(games.size()+5);
+        row3.createCell(1).setCellValue(games.size()+1);
         row3.createCell(2).setCellValue(strategyweight);
         Row row4 = sheet.createRow(rowNum++);
-        row4.createCell(0).setCellValue(157);
-        row4.createCell(1).setCellValue(152);
+        row4.createCell(0).setCellValue(games.size()+6);
+        row4.createCell(1).setCellValue(games.size()+1);
         row4.createCell(2).setCellValue(puzzleweight);
         Row row5 = sheet.createRow(rowNum++);
-        row5.createCell(0).setCellValue(158);
-        row5.createCell(1).setCellValue(152);
+        row5.createCell(0).setCellValue(games.size()+7);
+        row5.createCell(1).setCellValue(games.size()+1);
         row5.createCell(2).setCellValue(rpgweight);
         
         int weight2017 = 0;
@@ -310,136 +312,50 @@ public static void writeNode2() throws IOException{
         	if (game.getReleasedate().getYear() == 117)
         	{
         		row6.createCell(0).setCellValue(game.getGameid());
-        		row6.createCell(1).setCellValue(159);
+        		row6.createCell(1).setCellValue(games.size()+8);
         		row6.createCell(2).setCellValue(game.getSteamsells());
         		weight2017 = weight2017 + game.getSteamsells();
         	}
         	if (game.getReleasedate().getYear() == 118)
         	{
         		row6.createCell(0).setCellValue(game.getGameid());
-        		row6.createCell(1).setCellValue(160);
+        		row6.createCell(1).setCellValue(games.size()+9);
         		row6.createCell(2).setCellValue(game.getSteamsells());
         		weight2018 = weight2018 + game.getSteamsells();
         	}
         	if (game.getReleasedate().getYear() == 119)
         	{
         		row6.createCell(0).setCellValue(game.getGameid());
-        		row6.createCell(1).setCellValue(161);
+        		row6.createCell(1).setCellValue(games.size()+10);
         		row6.createCell(2).setCellValue(game.getSteamsells());
         		weight2019 = weight2019 + game.getSteamsells();
         	}
         	if (game.getReleasedate().getYear() == 120)
         	{
         		row6.createCell(0).setCellValue(game.getGameid());
-        		row6.createCell(1).setCellValue(162);
+        		row6.createCell(1).setCellValue(games.size()+11);
         		row6.createCell(2).setCellValue(game.getSteamsells());
         		weight2020 = weight2020 + game.getSteamsells();
         	}
         }
         
         Row row7 = sheet.createRow(rowNum++);
-        row7.createCell(0).setCellValue(159);
-        row7.createCell(1).setCellValue(152);
+        row7.createCell(0).setCellValue(games.size()+8);
+        row7.createCell(1).setCellValue(games.size()+1);
         row7.createCell(2).setCellValue(weight2017);
         Row row8 = sheet.createRow(rowNum++);
-        row8.createCell(0).setCellValue(160);
-        row8.createCell(1).setCellValue(152);
+        row8.createCell(0).setCellValue(games.size()+9);
+        row8.createCell(1).setCellValue(games.size()+1);
         row8.createCell(2).setCellValue(weight2018);     
         Row row9 = sheet.createRow(rowNum++);
-        row9.createCell(0).setCellValue(161);
-        row9.createCell(1).setCellValue(152);
+        row9.createCell(0).setCellValue(games.size()+10);
+        row9.createCell(1).setCellValue(games.size()+1);
         row9.createCell(2).setCellValue(weight2019);
         Row row10 = sheet.createRow(rowNum++);
-        row10.createCell(0).setCellValue(162);
-        row10.createCell(1).setCellValue(152);
+        row10.createCell(0).setCellValue(games.size()+11);
+        row10.createCell(1).setCellValue(games.size()+1);
         row10.createCell(2).setCellValue(weight2020);
         
-
-        
-        
-//        for (Game game: games)
-//        {
-//        	Row row = sheet.createRow(rowNum++);
-//        	
-//        	if (game.getWebshop().equalsIgnoreCase("Steam"))
-//        	{
-//        		System.out.println("yes");
-//        		row.createCell(0).setCellValue(game.getGameid());
-//        		row.createCell(1).setCellValue(games.size()+1);
-//            	row.createCell(2).setCellValue(game.getSteamsells());
-//        	}
-//        	
-//        	if (game.getWebshop() == "Epic")
-//        	{
-//        		row.createCell(0).setCellValue(game.getGameid());
-//        		row.createCell(1).setCellValue(games.size()+2);
-//            	row.createCell(2).setCellValue(game.getEpicsells());
-//        	}
-//        	
-//        	if (game.getWebshop() == "Both")
-//        	{
-//        		row.createCell(0).setCellValue(game.getGameid());
-//        		row.createCell(1).setCellValue(games.size()+1);
-//            	row.createCell(2).setCellValue(game.getSteamsells());
-//            	row.createCell(0).setCellValue(game.getName());
-//        		row.createCell(1).setCellValue(games.size()+2);
-//            	row.createCell(2).setCellValue(game.getEpicsells());
-//        	}        	
-//        }
-        
-//        for (int i = 0; i<games.size(); i++)
-//        {
-//        	for (int j = i; j<games.size(); j++)
-//        	{
-//        		if (games.get(i).getGenre() == games.get(j).getGenre())
-//        		{
-//        			if (i!=j)
-//        			{
-//        				Row row = sheet.createRow(rowNum++);
-//        				row.createCell(0).setCellValue(games.get(i).getGameid());
-//                		row.createCell(1).setCellValue(games.get(j).getGameid());
-//                    	row.createCell(2).setCellValue(1);
-//        			}			
-//        		}
-//        	}
-//        }
-        
-//        for (int i = 0; i<games.size(); i++) {
-//        	for (int j = i; j<games.size(); j++)
-//        	{
-//        		if (games.get(i).getReleasedate().getYear() == games.get(j).getReleasedate().getYear())
-//        		{
-//        			if (i!=j)
-//        			{
-//        				Row row = sheet.createRow(rowNum++);
-//        				row.createCell(0).setCellValue(games.get(i).getGameid());
-//        				row.createCell(1).setCellValue(games.get(j).getGameid());
-//                    	row.createCell(2).setCellValue(1);
-//        			}
-//        		}
-//        	}
-//        }
-        
-        
-        
-//        for (int i = 0; i<games.size(); i++) 
-//        {
-//        	for (int j = i; j<games.size(); j++)
-//        	{
-//        		if (games.get(i).getGenre() == games.get(j).getGenre())
-//        		{
-//        			if (games.get(i).getReleasedate().getYear() == games.get(j).getReleasedate().getYear()) {
-//        				if (i!=j)
-//                			{
-//                				Row row = sheet.createRow(rowNum++);
-//                				row.createCell(0).setCellValue(games.get(i).getGameid());
-//                				row.createCell(1).setCellValue(games.get(j).getGameid());
-//                            	row.createCell(2).setCellValue(1);
-//                			}
-//        			}       				
-//        		}       			
-//        	}
-//        }
 
 		// Resize all columns to fit the content size
         for(int i = 0; i < columns.length; i++) {
@@ -490,51 +406,57 @@ public static void writeEdge2() throws IOException{
         
       for (Game game: games)
       {
-      	Row row = sheet.createRow(rowNum++);
-      	
-      	if (game.getWebshop().equalsIgnoreCase("Steam"))
-      	{
-      		System.out.println("yes");
-      		row.createCell(0).setCellValue(game.getGameid());
-      		row.createCell(1).setCellValue(games.size()+1);
-          	row.createCell(2).setCellValue(game.getSteamsells());
-      	}
-      	
-      	if (game.getWebshop() == "Epic")
-      	{
-      		row.createCell(0).setCellValue(game.getGameid());
-      		row.createCell(1).setCellValue(games.size()+2);
-          	row.createCell(2).setCellValue(game.getEpicsells());
-      	}
-      	
-      	if (game.getWebshop() == "Both")
-      	{
-      		row.createCell(0).setCellValue(game.getGameid());
-      		row.createCell(1).setCellValue(games.size()+1);
-          	row.createCell(2).setCellValue(game.getSteamsells());
-          	row.createCell(0).setCellValue(game.getName());
-      		row.createCell(1).setCellValue(games.size()+2);
-          	row.createCell(2).setCellValue(game.getEpicsells());
-      	}        	
-      }
-        
-	      for (int i = 0; i<games.size(); i++) 
-	      {
-	      	for (int j = i; j<games.size(); j++)
+	      	Row row = sheet.createRow(rowNum++);
+	      	
+	      	if (game.getWebshop().equalsIgnoreCase("Steam"))
 	      	{
-	      		if (games.get(i).getGenre() == games.get(j).getGenre())
-	      		{
-	      			if (games.get(i).getReleasedate().getYear() == games.get(j).getReleasedate().getYear()) {
-	      				if (i!=j)
-	              			{
-	              				Row row = sheet.createRow(rowNum++);
-	              				row.createCell(0).setCellValue(games.get(i).getGameid());
-	              				row.createCell(1).setCellValue(games.get(j).getGameid());
-	                          	row.createCell(2).setCellValue(1);
-	              			}
-	      			}       				
-	      		}       			
+	      		row.createCell(0).setCellValue(game.getGameid());
+	      		row.createCell(1).setCellValue(games.size()+1);
+	          	row.createCell(2).setCellValue(game.getSteamsells());
 	      	}
+	      	
+	      	if (game.getWebshop().equalsIgnoreCase("Epic"))
+	      	{
+	      		row.createCell(0).setCellValue(game.getGameid());
+	      		row.createCell(1).setCellValue(games.size()+2);
+	          	row.createCell(2).setCellValue(game.getEpicsells());
+	      	}
+	      	
+	      	if (game.getWebshop().equalsIgnoreCase("Both"))
+	      	{
+	      		//System.out.println("BOTH");
+	      		row.createCell(0).setCellValue(game.getGameid());
+	      		row.createCell(1).setCellValue(games.size()+1);
+	          	row.createCell(2).setCellValue(game.getSteamsells());
+	          	Row row2 = sheet.createRow(rowNum++);
+	          	row2.createCell(0).setCellValue(game.getGameid());
+	      		row2.createCell(1).setCellValue(games.size()+2);
+	          	row2.createCell(2).setCellValue(game.getEpicsells());
+	      	}        	
+      }
+      
+      String a = null;
+	  String b = "test";
+	  int c = 0;
+	  int d = 1;
+
+	  for (int i = 0; i<games.size(); i++) 
+	      {			  
+		      	for (int j = i; j<games.size(); j++)
+		      	{
+		      		if (games.get(i).getGenre().equalsIgnoreCase(games.get(j).getGenre()))
+		      		{
+		      			if (games.get(i).getReleasedate().getYear() == games.get(j).getReleasedate().getYear()) {
+		      				if (i!=j)
+		              			{
+		      						Row row3 = sheet.createRow(rowNum++);
+		              				row3.createCell(0).setCellValue(games.get(i).getGameid());
+		              				row3.createCell(1).setCellValue(games.get(j).getGameid());
+		                          	row3.createCell(2).setCellValue(1);
+		              			}
+		      			}       				
+		      		}       			
+		      	}
 	      }
 
 		// Resize all columns to fit the content size

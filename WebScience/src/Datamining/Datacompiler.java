@@ -11,12 +11,14 @@ import java.util.HashSet;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import Math.LinearRegression;
 import Model.Game;
 
 public class Datacompiler {
 	
 	private List<Game> gamelist = new ArrayList();
-	private String[][] data;
+	private String[][] steamdata;
+	private String[][] epicdata;
 	Date date;
 	String tempdate;
 	Date dfilter;
@@ -30,6 +32,7 @@ public class Datacompiler {
 	
 	public List<Game> compile(int sellsfilter, String datefilter){
 		int i = 1;
+		int nonex = 0;
 		try {
 			dfilter = new SimpleDateFormat("dd/MM/yyyy").parse(datefilter);
 		} catch (ParseException e1) {
@@ -37,7 +40,8 @@ public class Datacompiler {
 			e1.printStackTrace();
 		}
 		try {
-			data = Dataextractor.getData();
+			steamdata = Dataextractor.getDatasteam();
+			epicdata = Dataextractor.getDataepic();
 			
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
@@ -46,27 +50,76 @@ public class Datacompiler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		while (i<data.length)
+		
+		for (int k = 1; k<epicdata.length; k++)
 		{
-			if (data[i][1].isEmpty()==false)
+			String reviewnumber = epicdata[k][2];
+			//System.out.println(reviewnumber);
+			int epicreviews = Integer.valueOf(reviewnumber);
+			int tempsales = (int) Math.round(epicreviews*LinearRegression.calculateglobal());
+			tempdate = epicdata[k][3];
+			try
 			{
-				if (data[i][2].isEmpty()==false)
+				date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+				if (date.after(dfilter))
 				{
-					String tempreviews = data[i][2];
+					Game game = new Game(epicdata[k][0],0,tempsales,date,epicdata[k][5],epicdata[k][4],gamelist.size()+1);
+					if (isunique(game.getName()))
+					{
+						gamelist.add(game);
+					}
+				}
+			}
+			catch (ParseException e) {
+					// TODO Auto-generated catch block
+				System.out.println(date);
+				System.out.println(i);
+				System.out.println(tempdate);
+				e.printStackTrace();
+			}		
+		}
+		
+				
+		for (int k = 1; k<steamdata.length; k++)
+		{
+			if (steamdata[k][1].isEmpty()==false)
+			{
+				if (steamdata[k][2].isEmpty()==false)
+				{
+					String tempreviews = steamdata[k][2];
 					tempreviews = tempreviews.replaceAll("[\\(\\)\\[\\]\\{\\}\\,]","");
 					int reviews = Integer.valueOf(tempreviews);
-					if (reviews*15 > sellsfilter)
+					int sales = (int) Math.round(reviews*LinearRegression.calculatesteam());
+					if (sales > sellsfilter)
 					{
-						tempdate = data[i][3];
+						tempdate = steamdata[k][3];
 						String tempdate2 = datereplacer(tempdate);
 						try {
 							date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate2);
 							if (date.after(dfilter))
 							{
-								Game game = new Game(data[i][0],reviews*15,0,date,data[i][5],data[i][4],gamelist.size()+1);
+								Game game = new Game(steamdata[k][0],(int) Math.round(reviews*LinearRegression.calculatesteam()),0,date,steamdata[k][5],steamdata[k][4],gamelist.size()+1);
 								if (isunique(game.getName()))
 								{
 									gamelist.add(game);
+								}
+								else
+								{
+									for (int j = 0; j < gamelist.size(); j++)
+									{
+										if (gamelist.get(j).getName().equalsIgnoreCase(game.getName()))
+										{
+											if (gamelist.get(j).getEpicsells() > 0)
+											{
+												nonex++;
+												gamelist.get(j).setSteamsells(sales);
+												int globalsale = gamelist.get(j).getEpicsells();
+												int epicsale = globalsale;
+												gamelist.get(j).setEpicsells(epicsale);
+												gamelist.get(j).setWebshop("Both");
+											}
+										}
+									}
 								}
 							}
 						} catch (ParseException e) {
@@ -77,38 +130,106 @@ public class Datacompiler {
 							e.printStackTrace();
 						}
 					}
+					else
+					{
+						Game game = new Game(steamdata[k][0],(int) Math.round(reviews*LinearRegression.calculatesteam()),0,date,steamdata[k][5],steamdata[k][4],gamelist.size()+1);
+						if (isunique(game.getName()))
+						{
+						}
+						else
+						{
+							for (int j = 0; j < gamelist.size(); j++)
+							{
+								if (gamelist.get(j).getName().equalsIgnoreCase(game.getName()))
+								{
+									if (gamelist.get(j).getEpicsells() > 0)
+									{
+										nonex++;
+										gamelist.get(j).setSteamsells(sales);
+										int globalsale = gamelist.get(j).getEpicsells();
+										int epicsale = globalsale;
+										gamelist.get(j).setEpicsells(epicsale);
+										gamelist.get(j).setWebshop("Both");
+									}
+								}
+							}
+						}
+					}
 				}
 				else
 				{
-					if (data[i][1].equalsIgnoreCase("- Need more user reviews to generate a score"))
+					if (steamdata[k][1].equalsIgnoreCase("- Need more user reviews to generate a score"))
 					{
 						
 					}
 					else
 					{					
-						String tempreviews = data[i][1];
+						String tempreviews = steamdata[k][1];
 						tempreviews = tempreviews.replaceAll("[\\(\\)\\[\\]\\{\\}\\,]","");
 						int reviews = Integer.valueOf(tempreviews);
-						if (reviews*15 > sellsfilter)
+						int sales = (int) Math.round(reviews*LinearRegression.calculatesteam());
+						if (sales > sellsfilter)
 						{
-							tempdate = data[i][3];
-							tempdate = datereplacer(tempdate);
+							tempdate = steamdata[k][3];
+							String tempdate2 = datereplacer(tempdate);
 							try {
-								date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+								date = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate2);
 								if (date.after(dfilter))
 								{
-									Game game = new Game(data[i][0],reviews*15,0,date,data[i][5],data[i][4],gamelist.size()+1);
+									Game game = new Game(steamdata[k][0],(int) Math.round(reviews*LinearRegression.calculatesteam()),0,date,steamdata[k][5],steamdata[k][4],gamelist.size()+1);
 									if (isunique(game.getName()))
 									{
 										gamelist.add(game);
 									}
+									else
+									{
+										for (int j = 0; j < gamelist.size(); j++)
+										{
+											if (gamelist.get(j).getName().equalsIgnoreCase(game.getName()))
+											{
+												if (gamelist.get(j).getEpicsells() > 0)
+												{
+													nonex++;
+													gamelist.get(j).setSteamsells(sales);
+													int globalsale = gamelist.get(j).getEpicsells();
+													int epicsale = globalsale;
+													gamelist.get(j).setEpicsells(epicsale);
+													gamelist.get(j).setWebshop("Both");
+												}
+											}
+										}
+									}
 								}
-								
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block
 								System.out.println("2");
 								e.printStackTrace();
 							}
+						}
+						else
+						{
+							Game game = new Game(steamdata[k][0],(int) Math.round(reviews*LinearRegression.calculatesteam()),0,date,steamdata[k][5],steamdata[k][4],gamelist.size()+1);
+							if (isunique(game.getName()))
+							{
+							}
+							else
+							{
+								for (int j = 0; j < gamelist.size(); j++)
+								{
+									if (gamelist.get(j).getName().equalsIgnoreCase(game.getName()))
+									{
+										if (gamelist.get(j).getEpicsells() > 0)
+										{
+											nonex++;
+											gamelist.get(j).setSteamsells(sales);
+											int globalsale = gamelist.get(j).getEpicsells();
+											int epicsale = globalsale;
+											gamelist.get(j).setEpicsells(epicsale);
+											gamelist.get(j).setWebshop("Both");
+										}
+									}
+								}
+							}				
 						}
 					}
 				}
@@ -136,6 +257,25 @@ public class Datacompiler {
 		date = date.replace(",", "");
 		
 		return date;
+	}
+	
+	public String datereplacerepic(String date)
+	{
+		date = date.replace("Jan", "01");
+		date = date.replace("Feb", "02");
+		date = date.replace("Mar", "03");
+		date = date.replace("Apr", "04");
+		date = date.replace("May", "05");
+		date = date.replace("Jun", "06");
+		date = date.replace("Jul", "07");
+		date = date.replace("Aug", "08");
+		date = date.replace("Sep", "09");
+		date = date.replace("Oct", "10");
+		date = date.replace("Nov", "11");
+		date = date.replace("Dec", "12");
+		date = date.replace("-", "/");
+		
+		return date;
 		
 	}
 	
@@ -157,11 +297,45 @@ public class Datacompiler {
 		//URL url = getClass().getResource("BrowsingShooter.xlsx");
 		Datacompiler compiler = new Datacompiler();
 		
-		List<Game> games = compiler.compile(100000,"01/07/2017");
+		List<Game> games = compiler.compile(150000,"01/01/2017");
 		for (int i = 0; i<games.size(); i++)
 		{
-			System.out.println(games.get(i).getName() + "    " + games.get(i).getGenre() + "       " +"Release Date:" + " " + (games.get(i).getReleasedate().getYear()+1900) +  "     " + "Sells:" + " " + games.get(i).getSteamsells());
+			System.out.println(games.get(i).getName() + "    " + games.get(i).getGenre() + "       " +"Release Date:" + " " + (games.get(i).getReleasedate().getYear()+1900) +  "     " + "EpicSells:" + " " + games.get(i).getEpicsells() + "     " + "SteamSells:" + " " + games.get(i).getSteamsells());
 				//System.out.println(games.get(i).getName());
+		}
+		
+		for (int i = 0; i<games.size(); i++)
+		{
+//			if (games.get(i).getName().equalsIgnoreCase("Borderlands 3"))
+//			{
+//				System.out.println(games.get(i).getName());
+//				System.out.println(games.get(i).getSteamsells());
+//				System.out.println(games.get(i).getEpicsells());
+//				System.out.println(games.get(i).getWebshop());
+//				System.out.println(games.get(i).getGenre());
+//				System.out.println(games.get(i).getReleasedate().getYear());
+//				for (int j = 0; j<games.size(); j++)
+//				{
+//					if (games.get(j).getGenre().equalsIgnoreCase(games.get(i).getGenre()))			
+//					{
+//						System.out.println(games.get(j).getName());
+////						if (games.get(j).getReleasedate().getYear() == games.get(i).getReleasedate().getYear())
+////						{
+////							System.out.println(games.get(j).getReleasedate().getYear());
+////						}
+//					}
+//				}
+//			}
+//			if (games.get(i).getName().equalsIgnoreCase("Halo: The Master Chief Collection"))
+//			{
+//				System.out.println(games.get(i).getName());
+//				System.out.println(games.get(i).getSteamsells());
+//				System.out.println(games.get(i).getEpicsells());
+//				System.out.println(games.get(i).getWebshop());
+//				System.out.println(games.get(i).getGenre());
+//				System.out.println(games.get(i).getReleasedate().getYear());
+//			}
+			//System.out.println(games.get(i).getName());
 		}
 		System.out.println(games.size());		
 	}
