@@ -47,7 +47,7 @@ public class LinearRegression {
 	
 	public static void main(String[] argz) throws InvalidFormatException, IOException
 	{
-    	LinearRegression.calculatesteam();
+		System.out.println(LinearRegression.calculatesteam());
     	System.out.println(LinearRegression.calculateglobal());
 	}
 
