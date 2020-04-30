@@ -20,12 +20,14 @@ public class Datawriter {
 
     private static String[] columns = {"id", "label"};
     private static String[] columns2 = {"source","target","weight"};
+    private static String[] columns3 = {"Name", "Genre", "Releaseyear", "Epicsells", "Steamsells"};
     private static String outputpath = "../WebScience/Data/gamenodes2.xlsx";
     private static String outputpath2 = "../WebScience/Data/gameedges2.xlsx";
     private static String outputpath3 = "../WebScience/Data/gamenodes.xlsx";
     private static String outputpath4 = "../WebScience/Data/gameedges.xlsx";
     private static String outputpath5 = "../WebScience/Data/gamenodes3.xlsx";
     private static String outputpath6 = "../WebScience/Data/gameedges3.xlsx";
+    private static String outputpath7 = "../WebScience/Data/gamesells.xlsx";
     
     private static List<Game> games = new ArrayList<Game>();
 
@@ -864,6 +866,65 @@ public static void writeEdge3() throws IOException{
   // Closing the workbook
   workbook.close();
 }
+
+public static void writesells() throws IOException{
+	
+	// load data
+	loaddata();
+	// Create a Workbook
+    Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
+
+    // Create a Sheet
+    Sheet sheet = workbook.createSheet("Gamesnode");
+
+    // Create a Font for styling header cells
+    Font headerFont = workbook.createFont();
+    headerFont.setBold(true);
+    headerFont.setFontHeightInPoints((short) 14);
+    headerFont.setColor(IndexedColors.RED.getIndex());
+
+    // Create a CellStyle with the font
+    CellStyle headerCellStyle = workbook.createCellStyle();
+    headerCellStyle.setFont(headerFont);
+
+    // Create a Row
+    Row headerRow = sheet.createRow(0);
+
+    // Create cells
+    for(int i = 0; i < columns3.length; i++) {
+        Cell cell = headerRow.createCell(i);
+        cell.setCellValue(columns3[i]);
+        cell.setCellStyle(headerCellStyle);
+    }
+
+    // Create Other rows and cells with employees data
+    int rowNum =1;
+    for (Game game: games)
+    {
+    	Row row = sheet.createRow(rowNum++);
+    	
+    	row.createCell(0).setCellValue(game.getName());
+    	row.createCell(1).setCellValue(game.getGenre());
+    	row.createCell(2).setCellValue(game.getReleasedate().getYear()+1900);
+    	row.createCell(3).setCellValue(game.getEpicsells());
+    	row.createCell(4).setCellValue(game.getSteamsells());
+    	
+    }
+   
+
+	// Resize all columns to fit the content size
+    for(int i = 0; i < columns.length; i++) {
+        sheet.autoSizeColumn(i);
+    }
+
+    // Write the output to a file
+    FileOutputStream fileOut = new FileOutputStream(outputpath7);
+    workbook.write(fileOut);
+    fileOut.close();
+
+    // Closing the workbook
+    workbook.close();
+}
         
     
     public static void main(String[] argz) throws InvalidFormatException, IOException
@@ -874,6 +935,7 @@ public static void writeEdge3() throws IOException{
     	Datawriter.writeEdge2();
     	Datawriter.writeNode3();
     	Datawriter.writeEdge3();
+    	Datawriter.writesells();
     	System.out.println("finished");
 	}
     	
